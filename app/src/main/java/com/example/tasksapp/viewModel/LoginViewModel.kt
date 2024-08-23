@@ -1,17 +1,12 @@
 package com.example.tasksapp.viewModel;
 import android.app.Application
-import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import com.example.tasksapp.services.infra.SharedPreferences.SharedPreferencesTasksHelper
 import com.example.tasksapp.services.models.Auth.UserModel
 import com.example.tasksapp.services.interfaces.ApiListener
 import com.example.tasksapp.services.models.ValidateApiModel
-import com.example.tasksapp.services.repository.AuthRepository
-import com.example.tasksapp.ui.view.activities.MainActivity
-import retrofit2.Call
-import retrofit2.Response
+import com.example.tasksapp.services.repository.remote.auth.AuthRepository
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val sharedPreferencesTasksHelper = SharedPreferencesTasksHelper(application)

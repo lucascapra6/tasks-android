@@ -1,4 +1,4 @@
-package com.example.tasksapp.services.repository
+package com.example.tasksapp.services.repository.remote.auth
 
 import com.example.tasksapp.services.models.Auth.LoginModel
 import com.example.tasksapp.services.models.Auth.UserModel
