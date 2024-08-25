@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData;
 import com.example.tasksapp.R
 import com.example.tasksapp.services.infra.SharedPreferences.SharedPreferencesTasksHelper
-import com.example.tasksapp.services.models.Auth.UserModel
+import com.example.tasksapp.models.Auth.UserModel
 import com.example.tasksapp.services.interfaces.ApiListener
-import com.example.tasksapp.services.models.ValidateApiModel
+import com.example.tasksapp.models.ValidateApiModel
 import com.example.tasksapp.services.repository.remote.auth.AuthRepository
 import com.example.tasksapp.utils.Constants
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(application: Application) : AbstractViewModel(application) {
     private val sharedPreferencesTasksHelper = SharedPreferencesTasksHelper(application)
     private val authRepository = AuthRepository()
     private val _isLoginSuccessful = MutableLiveData<ValidateApiModel>()
@@ -22,8 +22,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     fun doLogin(email: String, password: String) {
         authRepository.login(email, password, object: ApiListener<UserModel> {
             override fun onSuccess(response: UserModel) {
-                _isLoginSuccessful.value = ValidateApiModel(true,
-                    getApplication<Application>().getString(R.string.success_login))
+                _isLoginSuccessful.value = ValidateApiModel(true, stringfyResource(R.string.success_login))
                 val token = response.token
                 val name = response.name
                 val personKey = response.personKey
@@ -42,7 +41,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     fun handleLoggedSession() {
         // verificar se existe token no shared preferences
         // caso exista, direcionar para a activity principal
-        val hasToken = sharedPreferencesTasksHelper.get("token") !== ""
+        val hasToken = sharedPreferencesTasksHelper.get(Constants.SharedPreferencesKeys.TOKEN) !== ""
         if(hasToken) {
             _isUserLogged.value = true
         }

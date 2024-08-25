@@ -1,4 +1,4 @@
-package com.example.tasksapp.services.models.Auth
+package com.example.tasksapp.models.Auth
 
 data class UserModel(
     val token: String,

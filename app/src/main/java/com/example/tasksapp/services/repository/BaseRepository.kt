@@ -1,7 +1,6 @@
 package com.example.tasksapp.services.repository
 
 import com.example.tasksapp.services.interfaces.ApiListener
-import com.example.tasksapp.services.models.Auth.UserModel
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback

@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityLoginBinding
 import com.example.tasksapp.viewModel.LoginViewModel
-
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityLoginBinding
@@ -26,6 +23,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         //verifica se tem usuario logado
         viewModel.handleLoggedSession()
+
         observe()
     }
 
@@ -36,6 +34,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 val password = binding.editTextPassword.text.toString()
 
                 viewModel.doLogin(email, password)
+            }
+            R.id.registerUserButton -> {
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
             }
         }
     }
@@ -60,6 +62,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     fun setEventListeners() {
         binding.buttonLogin.setOnClickListener(this)
+        binding.registerUserButton.setOnClickListener(this)
     }
 
     fun startMainActivity() {

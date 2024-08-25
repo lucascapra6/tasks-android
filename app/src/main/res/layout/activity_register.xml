@@ -5,13 +5,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:context=".ui.view.activities.RegisterActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!-- Título da tela -->
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tasks"
+        android:text="Register"
         android:textSize="36sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -20,21 +33,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="100dp" />
 
+    <!-- Input de Nome -->
     <EditText
-        android:id="@+id/editTextID"
+        android:id="@+id/editTextName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Input de Email -->
+    <EditText
+        android:id="@+id/editTextEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:hint="Email"
-        android:inputType="text"
-        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@id/editTextName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/editTextPassword"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_marginTop="200dp" />
+        android:layout_marginTop="16dp" />
 
+    <!-- Input de Senha -->
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="0dp"
@@ -43,53 +70,22 @@
         android:layout_marginEnd="32dp"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/editTextID"
+        app:layout_constraintTop_toBottomOf="@id/editTextEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
+    <!-- Botão de Registro -->
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Enter"
+        android:text="Register"
         app:layout_constraintTop_toBottomOf="@id/editTextPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/buttonLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:id="@+id/registerUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Does not have an account?"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/registerUserButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register here"
-            android:textSize="15sp"
-            android:textStyle="bold"
-           android:textColor="@color/purple_500"
-            app:layout_constraintStart_toEndOf="@id/registerUser"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="2dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

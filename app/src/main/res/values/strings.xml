@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
     <string name="greeting_message">Olá, %1$s</string>
     <string name="success_login">Login bem sucedido</string>
+    <string name="success_user_created">Usuário criado com sucesso</string>
     <string name="menu_tasks">Tasks</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>

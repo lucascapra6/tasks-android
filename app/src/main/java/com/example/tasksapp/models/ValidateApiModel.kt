@@ -1,4 +1,4 @@
-package com.example.tasksapp.services.models
+package com.example.tasksapp.models
 
 data class ValidateApiModel(
     val success: Boolean,

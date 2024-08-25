@@ -30,12 +30,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarMain.toolbar)
         mainActivityViewModel = MainActivityViewModel(application)
-        mainActivityViewModel.setUserName()
-        observer()
+
         userNameRef = binding.appBarMain.contentMain.userName
+        mainActivityViewModel.setUserName()
+
+        observer()
 
 
         binding.appBarMain.fab.setOnClickListener { view ->

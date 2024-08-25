@@ -23,15 +23,13 @@ class RetrofitClient private constructor() {
             val httpClient = OkHttpClient.Builder()
 
             // Adiciona o interceptor para adicionar os headers dinâmicos
-            httpClient.addInterceptor(object : Interceptor {
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    val request = chain.request()
-                        .newBuilder()
-                        .addHeader("Authorization", token)
-                        .addHeader("Person-Key", personKey)
-                        .build()
-                    return chain.proceed(request)
-                }
+            httpClient.addInterceptor(Interceptor { chain ->
+                val request = chain.request()
+                    .newBuilder()
+                    .addHeader("token", token)
+                    .addHeader("personKey", personKey)
+                    .build()
+                chain.proceed(request)
             })
 
             // Adiciona o interceptor de logging
