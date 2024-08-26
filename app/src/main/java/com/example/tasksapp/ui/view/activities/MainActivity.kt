@@ -1,7 +1,10 @@
 package com.example.tasksapp.ui.view.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.view.View.OnClickListener
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -19,7 +22,7 @@ import com.example.tasksapp.databinding.ActivityMainBinding
 import com.example.tasksapp.utils.Constants
 import com.example.tasksapp.viewModel.MainActivityViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnClickListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -36,14 +39,8 @@ class MainActivity : AppCompatActivity() {
         userNameRef = binding.appBarMain.contentMain.userName
         mainActivityViewModel.setUserName()
 
+        setListeners()
         observer()
-
-
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
         handleNavigation()
     }
 
@@ -77,5 +74,17 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    fun setListeners() {
+        binding.appBarMain.fab.setOnClickListener(this)
+    }
+    override fun onClick(view: View) {
+        when(view.id) {
+            R.id.fab -> {
+                val intent = Intent(this, NewTaskFormActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }

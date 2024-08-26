@@ -1,5 +1,6 @@
 package com.example.tasksapp.services.repository.remote.tasks
 import com.example.tasksapp.models.Tasks.TaskModel
+import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.Path
 interface TasksServices {
