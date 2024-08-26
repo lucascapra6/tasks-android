@@ -2,18 +2,14 @@ package com.example.tasksapp.ui.view.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.AndroidViewModel
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityRegisterBinding
 import com.example.tasksapp.models.Auth.NewUserRegisterModel
-import com.example.tasksapp.models.Auth.UserModel
-import com.example.tasksapp.models.ValidateApiModel
+import com.example.tasksapp.utils.HeaderBar
 import com.example.tasksapp.viewModel.RegisterViewModel
 
 class RegisterActivity: AppCompatActivity(), View.OnClickListener {
@@ -23,10 +19,8 @@ class RegisterActivity: AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        HeaderBar.Builder(this).insertBackButton { finish() }.build(binding.toolbar)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -40,10 +34,6 @@ class RegisterActivity: AppCompatActivity(), View.OnClickListener {
         observe()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
-    }
     private fun observe() {
         viewModel.createdUserSuccess.observe(this) {
             if(it.success) {
@@ -58,7 +48,6 @@ class RegisterActivity: AppCompatActivity(), View.OnClickListener {
     private fun setListeners() {
         binding.buttonRegister.setOnClickListener(this)
     }
-
     override fun onClick(view: View) {
         when(view.id) {
             R.id.buttonRegister -> {
