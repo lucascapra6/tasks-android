@@ -3,17 +3,19 @@ package com.example.tasksapp.ui.view.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tasksapp.R
 import com.example.tasksapp.databinding.FragmentTasksBinding
 import com.example.tasksapp.models.Tasks.TaskModel
 import com.example.tasksapp.ui.view.adapters.TaskAdapter
 import com.example.tasksapp.viewModel.TasksViewModel
 
-class TasksFragment : Fragment() {
+class TasksFragment : Fragment(), OnClickListener {
 
     private var _binding: FragmentTasksBinding? = null
 
@@ -39,8 +41,7 @@ class TasksFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = TaskAdapter(tasks)
         recyclerView.adapter = adapter
-
-        fetchTasks()
+        setListeners()
 
         observe()
         return root
@@ -51,14 +52,49 @@ class TasksFragment : Fragment() {
         _binding = null
     }
 
-    fun observe() {
+    override fun onResume() {
+        super.onResume()
+        fetchTasks()
+    }
+    private fun observe() {
         viewModel.tasks.observe(viewLifecycleOwner) {
-            tasks = it
-            adapter.updateTasks(it)
+            if(it.success) {
+                handleHideError()
+                tasks = it.data!!
+                adapter.updateTasks(it.data)
+            } else {
+                handleShowError()
+            }
+        }
+
+        viewModel.loadingTasks.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if(it) View.VISIBLE else View.GONE
         }
     }
 
-    fun fetchTasks() {
+    private fun fetchTasks() {
         viewModel.fetchAllTasks()
+    }
+
+    private fun handleShowError() {
+        binding.errorLayout.visibility = View.VISIBLE
+        binding.recyclerViewTasks.visibility = View.GONE
+    }
+
+    private fun handleHideError() {
+        binding.errorLayout.visibility = View.GONE
+        binding.recyclerViewTasks.visibility = View.VISIBLE
+    }
+
+    private fun setListeners() {
+        binding.retryButton.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View) {
+        when(view.id) {
+            R.id.retryButton -> {
+                fetchTasks()
+            }
+        }
     }
 }
