@@ -40,6 +40,13 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.TasksApp.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".ui.view.activities.NewTaskFormActivity"
+            android:exported="true"
+            android:label="@string/new_task_toolbar"
+            android:theme="@style/Theme.TasksApp.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
