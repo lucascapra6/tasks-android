@@ -10,6 +10,10 @@
     <string name="greeting_message">Olá, %1$s</string>
     <string name="success_login">Login bem sucedido</string>
     <string name="success_user_created">Usuário criado com sucesso</string>
+    <string name="task_insert_successful">Task has been successful inserted</string>
+    <string name="task_insert_failure">Fail on inserting task</string>
+    <string name="add_task">Add task</string>
+    <string name="loading">Loading...</string>
     <string name="menu_tasks">Tasks</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>

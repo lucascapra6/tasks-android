@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/cardview_dark_background" /> <!-- Cor do botão habilitado -->
+    <corners android:radius="8dp" /> <!-- Raio dos cantos arredondados -->
+    <size android:width="100dp" android:height="45dp"/>
+</shape>

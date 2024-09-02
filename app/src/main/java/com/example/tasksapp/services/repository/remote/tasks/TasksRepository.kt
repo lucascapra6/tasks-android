@@ -10,4 +10,7 @@ class TasksRepository {
     suspend fun fetchAllTasks(): List<TaskModel> {
         return taskService.getAllTasks()
     }
+    suspend fun createTasks(taskModel: TaskModel): Boolean {
+        return taskService.createTask(taskModel)
+    }
 }

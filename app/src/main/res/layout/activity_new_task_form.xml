@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,8 +15,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/editTextDescription"
@@ -28,8 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        />
+        android:layout_marginEnd="32dp" />
 
     <Spinner
         android:id="@+id/spinnerPriority"
@@ -40,8 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        />
+        android:layout_marginEnd="32dp" />
 
     <Button
         android:id="@+id/buttonSelectDate"
@@ -53,8 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        />
+        android:layout_marginEnd="32dp" />
 
     <CheckBox
         android:id="@+id/checkBoxComplete"
@@ -65,20 +60,18 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        />
+        android:layout_marginEnd="32dp" />
 
-    <Button
+    <com.example.tasksapp.ui.view.components.ProgressButton
         android:id="@+id/buttonSaveTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar Tarefa"
+        app:button_label="@string/add_task"
+        android:paddingHorizontal="20dp"
+        app:button_loading_label="@string/loading"
         app:layout_constraintTop_toBottomOf="@id/checkBoxComplete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        />
-
+        android:layout_marginTop="32dp">
+    </com.example.tasksapp.ui.view.components.ProgressButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

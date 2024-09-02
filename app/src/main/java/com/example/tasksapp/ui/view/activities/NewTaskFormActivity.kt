@@ -6,8 +6,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityNewTaskFormBinding
@@ -25,7 +28,7 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
         binding = ActivityNewTaskFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
         HeaderBar.Builder(this).insertBackButton { finish() }.build(binding.toolbar)
-        binding.buttonSaveTask.isEnabled = false
+        binding.buttonSaveTask.setDisable()
         viewModel = NewTaskViewModel(application)
         setupPrioritySpinner()
         setListeners()
@@ -44,7 +47,22 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
     }
 
     private fun observe() {
+        viewModel.taskResult.observe(this) {
+            if(it.success) {
+                Toast.makeText(this, it.msg, Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                Toast.makeText(this, it.msg, Toast.LENGTH_SHORT).show()
+            }
+        }
 
+        viewModel.isSaveTaskLoading.observe(this) {
+            if(it) {
+                binding.buttonSaveTask.setLoading()
+            } else {
+                binding.buttonSaveTask.setDefault()
+            }
+        }
     }
 
     private fun saveTask() {
@@ -54,6 +72,8 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
         val taskStatus = binding.checkBoxComplete.isChecked
 
         val task = TaskModel("0", selectedPriority, description, selectedDate, taskStatus )
+
+        viewModel.saveTask(task)
     }
     private fun openDatePicker() {
         val calendar = Calendar.getInstance()
@@ -90,7 +110,7 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
 
     private fun checkFormValidity() {
         val hasDescription = binding.editTextDescription.text.isNotEmpty()
-        binding.buttonSaveTask.isEnabled = hasDescription && isDataSelected
+        if(hasDescription && isDataSelected) binding.buttonSaveTask.setDefault()
     }
 
     override fun onDateSet(v: DatePicker?, year: Int, month: Int, day: Int) {
