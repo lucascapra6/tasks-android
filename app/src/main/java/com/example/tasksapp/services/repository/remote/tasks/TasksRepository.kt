@@ -13,4 +13,8 @@ class TasksRepository {
     suspend fun createTasks(taskModel: TaskModel): Boolean {
         return taskService.createTask(taskModel)
     }
+
+    suspend fun deleteTask(id: String): Boolean {
+        return taskService.deleteTask(id)
+    }
 }

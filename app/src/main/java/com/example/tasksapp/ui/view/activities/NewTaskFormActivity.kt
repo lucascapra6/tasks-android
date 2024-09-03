@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityNewTaskFormBinding
+import com.example.tasksapp.models.Priority.PriorityModel
 import com.example.tasksapp.models.Tasks.TaskModel
 import com.example.tasksapp.utils.HeaderBar
 import com.example.tasksapp.viewModel.NewTaskViewModel
@@ -67,7 +68,7 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
 
     private fun saveTask() {
         val description = binding.editTextDescription.text.toString()
-        val selectedPriority = binding.spinnerPriority.selectedItemPosition.toString() //index
+        val selectedPriority = getPriorityIdByIndex(binding.spinnerPriority.selectedItemPosition).id.toString()
         val selectedDate = binding.buttonSelectDate.text.toString()
         val taskStatus = binding.checkBoxComplete.isChecked
 
@@ -94,6 +95,16 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
         binding.spinnerPriority.adapter = adapter
     }
 
+    private fun getPriorityIdByIndex(index: Int): PriorityModel {
+        val priorities = listOf<PriorityModel>(
+            PriorityModel(1, "Low"),
+            PriorityModel(2, "Medium"),
+            PriorityModel(3, "High")
+        )
+
+        return priorities[index]
+    }
+
     private fun setListeners() {
         binding.buttonSelectDate.setOnClickListener(this)
         binding.buttonSaveTask.setOnClickListener(this)
@@ -111,6 +122,7 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
     private fun checkFormValidity() {
         val hasDescription = binding.editTextDescription.text.isNotEmpty()
         if(hasDescription && isDataSelected) binding.buttonSaveTask.setDefault()
+        else binding.buttonSaveTask.setDisable()
     }
 
     override fun onDateSet(v: DatePicker?, year: Int, month: Int, day: Int) {

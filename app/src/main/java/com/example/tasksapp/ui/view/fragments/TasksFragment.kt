@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,7 +40,15 @@ class TasksFragment : Fragment(), OnClickListener {
 
         val recyclerView = binding.recyclerViewTasks
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = TaskAdapter(tasks)
+        adapter = TaskAdapter(
+            taskList = tasks,
+            onEditClick = { task ->
+                onEditClick(task)
+            },
+            onDeleteClick = { task ->
+                showDeleteConfirmationDialog(task)
+            }
+        )
         recyclerView.adapter = adapter
         setListeners()
 
@@ -96,5 +105,32 @@ class TasksFragment : Fragment(), OnClickListener {
                 fetchTasks()
             }
         }
+    }
+
+    private fun onEditClick(task: TaskModel) {
+        Toast.makeText(requireContext(), "Edit ${task.description}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onDeleteClick(task: TaskModel) {
+        viewModel.deleteTask(task.id)
+    }
+
+    private fun showDeleteConfirmationDialog(task: TaskModel) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.task_delete_confirm_title)
+        builder.setMessage(R.string.task_delete_confirm_description)
+
+        builder.setPositiveButton(R.string.yes) { dialog, _ ->
+            viewModel.deleteTask(task.id)
+            dialog.dismiss()
+            fetchTasks()
+        }
+
+        builder.setNegativeButton(R.string.no) { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val alert = builder.create()
+        alert.show()
     }
 }

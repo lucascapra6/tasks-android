@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tasksapp.databinding.ItemTaskBinding
 import com.example.tasksapp.models.Tasks.TaskModel
-import okhttp3.internal.concurrent.Task
 
-class TaskAdapter(private var taskList: List<TaskModel>): RecyclerView.Adapter<TaskViewHolder>() {
+class TaskAdapter(
+    private var taskList: List<TaskModel>,
+    private val onEditClick: (TaskModel) -> Unit,
+    private val onDeleteClick: (TaskModel) -> Unit): RecyclerView.Adapter<TaskViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TaskViewHolder(binding)
+        return TaskViewHolder(binding, onEditClick, onDeleteClick)
     }
 
     override fun getItemCount(): Int {
@@ -27,8 +29,19 @@ class TaskAdapter(private var taskList: List<TaskModel>): RecyclerView.Adapter<T
     }
 }
 
-class TaskViewHolder(private val binding: ItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
+class TaskViewHolder(
+    private val binding: ItemTaskBinding,
+    private val onEditClick: (TaskModel) -> Unit,
+    private val onDeleteClick: (TaskModel) -> Unit): RecyclerView.ViewHolder(binding.root) {
     fun bind(task: TaskModel) {
         binding.textViewTask.text = task.description
+
+        binding.iconEdit.setOnClickListener {
+            onEditClick(task)
+        }
+
+        binding.iconDelete.setOnClickListener {
+            onDeleteClick(task)
+        }
     }
 }
