@@ -79,6 +79,12 @@ class TasksFragment : Fragment(), OnClickListener {
         viewModel.loadingTasks.observe(viewLifecycleOwner) {
             binding.progressBar.visibility = if(it) View.VISIBLE else View.GONE
         }
+
+        viewModel.deleteTask.observe(viewLifecycleOwner) {
+            if(!it.success) {
+                Toast.makeText(context, it.msg, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun fetchTasks() {

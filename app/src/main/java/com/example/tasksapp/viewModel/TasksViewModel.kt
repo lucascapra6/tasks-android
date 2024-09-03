@@ -50,7 +50,6 @@ class TasksViewModel(application: Application) : AbstractViewModel(application) 
                 val response = repository.deleteTask(id)
                 _deleteTask.value = ValidationApiModel(response, true)
             } catch (e: Exception) {
-                Log.w("Delete Error", e)
                 _deleteTask.value = ValidationApiModel(null, false, "Fail on delete task")
             }
         }
