@@ -10,10 +10,15 @@ class TasksRepository {
     suspend fun fetchAllTasks(): List<TaskModel> {
         return taskService.getAllTasks()
     }
+    suspend fun fetchTask(id: String): TaskModel {
+        return taskService.getTaskById(id)
+    }
     suspend fun createTasks(taskModel: TaskModel): Boolean {
         return taskService.createTask(taskModel)
     }
-
+    suspend fun updateTask(taskModel: TaskModel): Boolean {
+        return taskService.updateTask(taskModel)
+    }
     suspend fun deleteTask(id: String): Boolean {
         return taskService.deleteTask(id)
     }

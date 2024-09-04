@@ -1,5 +1,6 @@
 package com.example.tasksapp.ui.view.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.FragmentTasksBinding
 import com.example.tasksapp.models.Tasks.TaskModel
+import com.example.tasksapp.ui.view.activities.NewTaskFormActivity
 import com.example.tasksapp.ui.view.adapters.TaskAdapter
+import com.example.tasksapp.utils.Constants
 import com.example.tasksapp.viewModel.TasksViewModel
 
 class TasksFragment : Fragment(), OnClickListener {
@@ -43,10 +46,10 @@ class TasksFragment : Fragment(), OnClickListener {
         adapter = TaskAdapter(
             taskList = tasks,
             onEditClick = { task ->
-                onEditClick(task)
+                onEditTask(task)
             },
             onDeleteClick = { task ->
-                showDeleteConfirmationDialog(task)
+                onDeleteTask(task)
             }
         )
         recyclerView.adapter = adapter
@@ -113,15 +116,16 @@ class TasksFragment : Fragment(), OnClickListener {
         }
     }
 
-    private fun onEditClick(task: TaskModel) {
-        Toast.makeText(requireContext(), "Edit ${task.description}", Toast.LENGTH_SHORT).show()
+    private fun onEditTask(task: TaskModel) {
+        val intent = Intent(context, NewTaskFormActivity::class.java)
+        //envia dados na navegacao
+        val bundle = Bundle()
+        bundle.putString(Constants.BundleDataKeys.TASK_ID, task.id)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
-    private fun onDeleteClick(task: TaskModel) {
-        viewModel.deleteTask(task.id)
-    }
-
-    private fun showDeleteConfirmationDialog(task: TaskModel) {
+    private fun onDeleteTask(task: TaskModel) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.task_delete_confirm_title)
         builder.setMessage(R.string.task_delete_confirm_description)

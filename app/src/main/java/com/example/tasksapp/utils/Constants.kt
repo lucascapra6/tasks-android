@@ -14,4 +14,8 @@ object Constants {
         const val NAME = "name"
         const val PERSON_KEY = "personKey"
     }
+
+    object BundleDataKeys {
+        const val TASK_ID = "task_id"
+    }
 }

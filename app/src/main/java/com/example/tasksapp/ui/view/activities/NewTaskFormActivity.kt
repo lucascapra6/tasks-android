@@ -16,6 +16,7 @@ import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityNewTaskFormBinding
 import com.example.tasksapp.models.Priority.PriorityModel
 import com.example.tasksapp.models.Tasks.TaskModel
+import com.example.tasksapp.utils.Constants
 import com.example.tasksapp.utils.HeaderBar
 import com.example.tasksapp.viewModel.NewTaskViewModel
 import java.util.Calendar
@@ -24,6 +25,12 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
     private lateinit var binding: ActivityNewTaskFormBinding
     private lateinit var viewModel: NewTaskViewModel
     private var isDataSelected = false
+    private val priorities = listOf(
+        PriorityModel(1, "Low"),
+        PriorityModel(2, "Medium"),
+        PriorityModel(3, "High")
+    )
+    private var currentTaskId = "0"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewTaskFormBinding.inflate(layoutInflater)
@@ -31,6 +38,7 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
         HeaderBar.Builder(this).insertBackButton { finish() }.build(binding.toolbar)
         binding.buttonSaveTask.setDisable()
         viewModel = NewTaskViewModel(application)
+        handleNavigation()
         setupPrioritySpinner()
         setListeners()
         observe()
@@ -64,6 +72,14 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
                 binding.buttonSaveTask.setDefault()
             }
         }
+
+        viewModel.loadedTask.observe(this) {
+            binding.editTextDescription.setText(it.description)
+            binding.spinnerPriority.setSelection(getIndexByPriorityId(it.priorityId))
+            binding.buttonSelectDate.text = it.dueDate
+            binding.checkBoxComplete.isChecked = it.complete
+            checkFormValidity()
+        }
     }
 
     private fun saveTask() {
@@ -72,10 +88,15 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
         val selectedDate = binding.buttonSelectDate.text.toString()
         val taskStatus = binding.checkBoxComplete.isChecked
 
-        val task = TaskModel("0", selectedPriority, description, selectedDate, taskStatus )
+        val task = TaskModel(currentTaskId, selectedPriority, description, selectedDate, taskStatus )
 
+        if(currentTaskId !== "0") {
+            viewModel.updateTask(task)
+            return
+        }
         viewModel.saveTask(task)
     }
+
     private fun openDatePicker() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -96,13 +117,10 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
     }
 
     private fun getPriorityIdByIndex(index: Int): PriorityModel {
-        val priorities = listOf<PriorityModel>(
-            PriorityModel(1, "Low"),
-            PriorityModel(2, "Medium"),
-            PriorityModel(3, "High")
-        )
-
         return priorities[index]
+    }
+    private fun getIndexByPriorityId(priorityId: String): Int {
+        return priorities.indexOfFirst { it.id.toString() == priorityId }
     }
 
     private fun setListeners() {
@@ -129,5 +147,16 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
         binding.buttonSelectDate.text = "$day/${month}/$year"
         isDataSelected = true
         checkFormValidity()
+    }
+
+    private fun handleNavigation() {
+        val bundle = intent.extras
+        if(bundle != null) {
+            val taskId = bundle.getString(Constants.BundleDataKeys.TASK_ID)!!
+            currentTaskId = taskId
+            viewModel.loadTask(taskId)
+            isDataSelected = true
+            binding.buttonSaveTask.setLabel("Update task")
+        }
     }
 }

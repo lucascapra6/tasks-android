@@ -38,7 +38,6 @@ class ProgressButton @JvmOverloads constructor(
             val labelLoadingResId = attributes.getResourceId(R.styleable.ProgressButton_button_loading_label, 0)
             if(labelLoadingResId != 0) loadingLabel = context.getString(labelLoadingResId)
 
-
             attributes.recycle()
         }
     }
@@ -77,6 +76,10 @@ class ProgressButton @JvmOverloads constructor(
     }
     fun setDisable() {
         state = ProgressButtonState.Disabled
+    }
+
+    fun setLabel(text: String) {
+        label = text
     }
 }
 
