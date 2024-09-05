@@ -9,17 +9,31 @@
         android:id="@+id/nav_tasks"
         android:name="com.example.tasksapp.ui.view.fragments.TasksFragment"
         android:label="@string/menu_tasks"
-        tools:layout="@layout/fragment_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <argument
+            android:name="taskFilterParam"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_next7days_tasks"
         android:name="com.example.tasksapp.ui.view.fragments.TasksFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:label="@string/next_7_days"
+        tools:layout="@layout/fragment_tasks" >
+        <argument
+            android:name="taskFilterParam"
+            app:argType="integer"
+            android:defaultValue="2" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_overdue_tasks"
         android:name="com.example.tasksapp.ui.view.fragments.TasksFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:label="@string/overdue_tasks"
+        tools:layout="@layout/fragment_tasks" >
+        <argument android:name="taskFilterParam"
+            app:argType="integer"
+            android:defaultValue="3" />
+    </fragment>
 </navigation>

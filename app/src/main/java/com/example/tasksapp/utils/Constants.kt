@@ -18,4 +18,14 @@ object Constants {
     object BundleDataKeys {
         const val TASK_ID = "task_id"
     }
+
+    object TaskFilterKey {
+        const val TASK_FILTER_PARAM =  "taskFilterParam"
+    }
+
+    object TaskFilterValues {
+        const val ALL_TASKS = 1
+        const val NEXT_7_DAYS = 2
+        const val OVERDUE = 3
+    }
 }

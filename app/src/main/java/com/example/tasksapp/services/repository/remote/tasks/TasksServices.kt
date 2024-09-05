@@ -17,6 +17,12 @@ interface TasksServices {
     @GET("Task")
     suspend fun getAllTasks(): List<TaskModel>
 
+    @GET("Task/Next7Days")
+    suspend fun getNext7DaysTasks(): List<TaskModel>
+
+    @GET("Task/Overdue")
+    suspend fun getOverdueTasks(): List<TaskModel>
+
     @GET("Task/{id}")
     suspend fun getTaskById(@Path("id") id: String): TaskModel
 

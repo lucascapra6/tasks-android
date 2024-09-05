@@ -10,6 +10,12 @@ class TasksRepository {
     suspend fun fetchAllTasks(): List<TaskModel> {
         return taskService.getAllTasks()
     }
+    suspend fun fetchNext7DaysTasks(): List<TaskModel> {
+        return taskService.getNext7DaysTasks()
+    }
+    suspend fun fetchOverdueTasks(): List<TaskModel> {
+        return taskService.getOverdueTasks()
+    }
     suspend fun fetchTask(id: String): TaskModel {
         return taskService.getTaskById(id)
     }

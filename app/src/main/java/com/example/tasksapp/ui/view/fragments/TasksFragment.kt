@@ -17,6 +17,7 @@ import com.example.tasksapp.models.Tasks.TaskModel
 import com.example.tasksapp.ui.view.activities.NewTaskFormActivity
 import com.example.tasksapp.ui.view.adapters.TaskAdapter
 import com.example.tasksapp.utils.Constants
+import com.example.tasksapp.viewModel.TaskState
 import com.example.tasksapp.viewModel.TasksViewModel
 
 class TasksFragment : Fragment(), OnClickListener {
@@ -69,18 +70,12 @@ class TasksFragment : Fragment(), OnClickListener {
         fetchTasks()
     }
     private fun observe() {
-        viewModel.tasks.observe(viewLifecycleOwner) {
-            if(it.success) {
-                handleHideError()
-                tasks = it.data!!
-                adapter.updateTasks(it.data)
-            } else {
-                handleShowError()
+        viewModel.tasksState.observe(viewLifecycleOwner) {
+            when (it) {
+                is TaskState.Loading -> showLoading()
+                is TaskState.Success -> showTasks(it.tasks)
+                is TaskState.Error -> showError(it.message)
             }
-        }
-
-        viewModel.loadingTasks.observe(viewLifecycleOwner) {
-            binding.progressBar.visibility = if(it) View.VISIBLE else View.GONE
         }
 
         viewModel.deleteTask.observe(viewLifecycleOwner) {
@@ -91,17 +86,35 @@ class TasksFragment : Fragment(), OnClickListener {
     }
 
     private fun fetchTasks() {
-        viewModel.fetchAllTasks()
+        val taskArgument = arguments?.getInt(Constants.TaskFilterKey.TASK_FILTER_PARAM, 1)
+        if (taskArgument != null) {
+            viewModel.fetchTasks(taskArgument)
+        }
     }
 
-    private fun handleShowError() {
-        binding.errorLayout.visibility = View.VISIBLE
+    private fun showTasks(taskList: List<TaskModel>) {
+        hideError()
+        tasks = taskList
+        adapter.updateTasks(taskList)
+    }
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
         binding.recyclerViewTasks.visibility = View.GONE
     }
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
+    private fun showError(message: String) {
+        binding.errorLayout.visibility = View.VISIBLE
+        binding.recyclerViewTasks.visibility = View.GONE
+        binding.errorMessage.text = message
+        hideLoading()
+    }
 
-    private fun handleHideError() {
+    private fun hideError() {
         binding.errorLayout.visibility = View.GONE
         binding.recyclerViewTasks.visibility = View.VISIBLE
+        hideLoading()
     }
 
     private fun setListeners() {
