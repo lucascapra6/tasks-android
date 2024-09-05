@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainActivityViewModel: MainActivityViewModel
     private lateinit var userNameRef: TextView
-
+    private lateinit var headerView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         setListeners()
         observer()
         handleNavigation()
+
+        val navView: NavigationView = binding.navView
+        headerView = navView.getHeaderView(0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -60,7 +63,9 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     fun observer() {
         mainActivityViewModel.userName.observe(this) {
+            val headerTitle: TextView = headerView.findViewById(R.id.header_title)
             userNameRef.text = getString(R.string.greeting_message, it)
+            headerTitle.text = getString(R.string.greeting_message, it)
         }
     }
 

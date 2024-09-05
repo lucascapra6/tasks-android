@@ -9,7 +9,6 @@ import com.example.tasksapp.utils.Constants
 
 class MainActivityViewModel (application: Application) : AndroidViewModel(application) {
     private val sharedPreferencesTasksHelper = SharedPreferencesTasksHelper(application)
-    private val authRepository = AuthRepository()
     private val _userName = MutableLiveData<String>()
     var userName: LiveData<String> = _userName
 
