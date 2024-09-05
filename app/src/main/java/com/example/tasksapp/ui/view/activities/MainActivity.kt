@@ -16,9 +16,12 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.navigation.ui.NavigationUI
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityMainBinding
+import com.example.tasksapp.services.infra.SharedPreferences.SharedPreferencesTasksHelper
 import com.example.tasksapp.utils.Constants
 import com.example.tasksapp.viewModel.MainActivityViewModel
 
@@ -69,11 +72,28 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_tasks, R.id.nav_next7days_tasks, R.id.nav_overdue_tasks
+                R.id.nav_tasks, R.id.nav_next7days_tasks, R.id.nav_overdue_tasks, R.id.logout
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.logout -> {
+                    mainActivityViewModel.logout()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                else -> {
+                    // Para os outros itens, deixe o Navigation Controller tratar a navegação
+                    NavigationUI.onNavDestinationSelected(menuItem, navController)
+                    drawerLayout.closeDrawer(GravityCompat.START) // Fechar o Drawer após o clique
+                }
+            }
+            true
+        }
     }
 
     fun setListeners() {

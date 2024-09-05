@@ -12,7 +12,7 @@ class SharedPreferencesTasksHelper(context: Context): AbstractSharedPreferencesH
         preferences.edit().putString(key, value).apply()
     }
 
-    override fun remove(key: String, value: String) {
+    override fun remove(key: String) {
         preferences.edit().remove(key).apply()
     }
 }

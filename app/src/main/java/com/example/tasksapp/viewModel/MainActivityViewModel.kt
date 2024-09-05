@@ -17,4 +17,10 @@ class MainActivityViewModel (application: Application) : AndroidViewModel(applic
         val storedUserName = sharedPreferencesTasksHelper.get(Constants.SharedPreferencesKeys.NAME)
         _userName.value = storedUserName
     }
+
+    fun logout() {
+        sharedPreferencesTasksHelper.remove(Constants.SharedPreferencesKeys.PERSON_KEY)
+        sharedPreferencesTasksHelper.remove(Constants.SharedPreferencesKeys.TOKEN)
+        sharedPreferencesTasksHelper.remove(Constants.SharedPreferencesKeys.NAME)
+    }
 }

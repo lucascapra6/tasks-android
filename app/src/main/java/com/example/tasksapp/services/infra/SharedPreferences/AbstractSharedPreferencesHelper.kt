@@ -11,5 +11,5 @@ abstract class AbstractSharedPreferencesHelper(context: Context) {
 
     abstract fun get(key: String) : String
     abstract fun store(key: String, value: String)
-    abstract fun remove(key: String, value: String)
+    abstract fun remove(key: String)
 }
