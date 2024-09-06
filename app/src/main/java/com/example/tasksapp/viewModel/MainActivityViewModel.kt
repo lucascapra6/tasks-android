@@ -7,7 +7,7 @@ import com.example.tasksapp.services.infra.SharedPreferences.SharedPreferencesTa
 import com.example.tasksapp.services.repository.remote.auth.AuthRepository
 import com.example.tasksapp.utils.Constants
 
-class MainActivityViewModel (application: Application) : AndroidViewModel(application) {
+class MainActivityViewModel (application: Application) : AbstractViewModel(application) {
     private val sharedPreferencesTasksHelper = SharedPreferencesTasksHelper(application)
     private val _userName = MutableLiveData<String>()
     var userName: LiveData<String> = _userName
@@ -15,11 +15,5 @@ class MainActivityViewModel (application: Application) : AndroidViewModel(applic
     fun setUserName() {
         val storedUserName = sharedPreferencesTasksHelper.get(Constants.SharedPreferencesKeys.NAME)
         _userName.value = storedUserName
-    }
-
-    fun logout() {
-        sharedPreferencesTasksHelper.remove(Constants.SharedPreferencesKeys.PERSON_KEY)
-        sharedPreferencesTasksHelper.remove(Constants.SharedPreferencesKeys.TOKEN)
-        sharedPreferencesTasksHelper.remove(Constants.SharedPreferencesKeys.NAME)
     }
 }

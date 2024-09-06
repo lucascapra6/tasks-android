@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devmasterteam.tasks.service.repository.remote.RetrofitClient
+import com.example.tasksapp.exceptions.HttpExceptions
 import com.example.tasksapp.models.Tasks.TaskModel
 import com.example.tasksapp.models.ValidationApiModel
 import com.example.tasksapp.services.infra.SharedPreferences.SharedPreferencesTasksHelper
@@ -28,6 +29,7 @@ class TasksViewModel(application: Application) : AbstractViewModel(application) 
     private val token = sharedPreferencesTasksHelper.get(Constants.SharedPreferencesKeys.TOKEN)
     private val personKey = sharedPreferencesTasksHelper.get(Constants.SharedPreferencesKeys.PERSON_KEY)
     private val fetchTasksUseCase = FetchTasksUseCase(repository)
+
     fun fetchTasks(taskArgument: Int) {
         RetrofitClient.addHeaders(token, personKey)
 

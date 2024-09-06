@@ -21,7 +21,7 @@ import com.example.tasksapp.utils.HeaderBar
 import com.example.tasksapp.viewModel.NewTaskViewModel
 import java.util.Calendar
 
-class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialog.OnDateSetListener {
+class NewTaskFormActivity: SessionManagerActivity(), OnClickListener, DatePickerDialog.OnDateSetListener {
     private lateinit var binding: ActivityNewTaskFormBinding
     private lateinit var viewModel: NewTaskViewModel
     private var isDataSelected = false
@@ -144,7 +144,7 @@ class NewTaskFormActivity: AppCompatActivity(), OnClickListener, DatePickerDialo
     }
 
     override fun onDateSet(v: DatePicker?, year: Int, month: Int, day: Int) {
-        binding.buttonSelectDate.text = "$day/${month}/$year"
+        binding.buttonSelectDate.text = "$day/${month + 1}/$year"
         isDataSelected = true
         checkFormValidity()
     }

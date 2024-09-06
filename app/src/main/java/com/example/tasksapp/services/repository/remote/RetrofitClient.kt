@@ -3,6 +3,7 @@ package com.devmasterteam.tasks.service.repository.remote
 import NetworkInfo
 import android.content.Context
 import android.widget.Toast
+import com.example.tasksapp.exceptions.HttpExceptions
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -18,13 +19,10 @@ class RetrofitClient private constructor() {
         private var token: String = ""
         private var personKey: String = ""
         private lateinit var context: Context
+        private lateinit var handleInvalidateSessionListener: () -> Unit
         // Configura o interceptor de logging para exibir os detalhes da requisição e resposta
         private val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
-        }
-
-        fun init(context: Context) {
-            this.context = context
         }
         private fun getRetrofitInstance(): Retrofit {
             val httpClient = OkHttpClient.Builder()
@@ -40,7 +38,20 @@ class RetrofitClient private constructor() {
                     .addHeader("token", token)
                     .addHeader("personKey", personKey)
                     .build()
+
                 chain.proceed(request)
+            })
+
+            httpClient.addInterceptor(object : Interceptor {
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    val response = chain.proceed(chain.request())
+
+                    if (response.code == 403) {
+                        handleInvalidateSessionListener()
+                    }
+
+                    return response
+                }
             })
 
             // Adiciona o interceptor de logging
@@ -65,6 +76,12 @@ class RetrofitClient private constructor() {
         fun addHeaders(tokenValue: String, personKeyValue: String) {
             token = tokenValue
             personKey = personKeyValue
+        }
+        fun init(context: Context) {
+            this.context = context
+        }
+        fun setInvalidationSetListener(callback: () -> Unit) {
+            handleInvalidateSessionListener = callback
         }
     }
 }

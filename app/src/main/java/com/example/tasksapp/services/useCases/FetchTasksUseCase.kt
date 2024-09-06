@@ -1,5 +1,6 @@
 package com.example.tasksapp.services.useCases
 
+import com.example.tasksapp.exceptions.HttpExceptions
 import com.example.tasksapp.models.Tasks.TaskModel
 import com.example.tasksapp.services.repository.remote.tasks.TasksRepository
 import com.example.tasksapp.utils.Constants

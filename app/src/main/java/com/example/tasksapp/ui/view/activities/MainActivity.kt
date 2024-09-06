@@ -25,7 +25,7 @@ import com.example.tasksapp.services.infra.SharedPreferences.SharedPreferencesTa
 import com.example.tasksapp.utils.Constants
 import com.example.tasksapp.viewModel.MainActivityViewModel
 
-class MainActivity : AppCompatActivity(), OnClickListener {
+class MainActivity : SessionManagerActivity(), OnClickListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
