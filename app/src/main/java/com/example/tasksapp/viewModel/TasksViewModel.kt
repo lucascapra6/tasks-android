@@ -34,10 +34,15 @@ class TasksViewModel(application: Application) : AbstractViewModel(application) 
         viewModelScope.launch {
             _tasksState.value = TaskState.Loading
             val response = fetchTasksUseCase.invoke(taskArgument)
-
             _tasksState.value = when {
                 response.isSuccess -> TaskState.Success(response.getOrNull() ?: emptyList())
-                else -> {TaskState.Error("Fail on load tasks")}
+                else -> {
+                    val errorMessage = when (val exception = response.exceptionOrNull()) {
+                        is java.io.IOException -> exception.message!! // Tratar o erro de conexão
+                        else -> "Fail on load tasks"
+                    }
+                    TaskState.Error(errorMessage)
+                }
             }
         }
     }

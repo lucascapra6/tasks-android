@@ -1,11 +1,15 @@
 package com.devmasterteam.tasks.service.repository.remote
 
+import NetworkInfo
+import android.content.Context
+import android.widget.Toast
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 class RetrofitClient private constructor() {
 
@@ -13,17 +17,24 @@ class RetrofitClient private constructor() {
         private lateinit var INSTANCE: Retrofit
         private var token: String = ""
         private var personKey: String = ""
-
+        private lateinit var context: Context
         // Configura o interceptor de logging para exibir os detalhes da requisição e resposta
         private val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
+        fun init(context: Context) {
+            this.context = context
+        }
         private fun getRetrofitInstance(): Retrofit {
             val httpClient = OkHttpClient.Builder()
 
             // Adiciona o interceptor para adicionar os headers dinâmicos
             httpClient.addInterceptor(Interceptor { chain ->
+                if (!NetworkInfo.isNetworkAvailable(context)) {
+                    throw IOException("No internet connection")
+                }
+
                 val request = chain.request()
                     .newBuilder()
                     .addHeader("token", token)

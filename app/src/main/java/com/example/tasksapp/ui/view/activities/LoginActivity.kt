@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.devmasterteam.tasks.service.repository.remote.RetrofitClient
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityLoginBinding
 import com.example.tasksapp.viewModel.LoginViewModel
@@ -18,7 +19,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         viewModel = LoginViewModel(application)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        RetrofitClient.init(application)
         setEventListeners()
 
         //verifica se tem usuario logado
